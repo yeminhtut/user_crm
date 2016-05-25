@@ -21,10 +21,16 @@ Route::get('/home', 'HomeController@index');
 
 Route::get('/users', 'UserController@index');
 
-Route::get('/user/{id}', 'UserController@profile');
+Route::get('/user_profile',['uses' => 'UserController@test_fn'])->name('test_profile_fn');
 
-Route::get('/user/{id}', ['uses'=>'UserController@profile'])->name('user_profile');
-Route::get('/user/edit/{id}', ['uses'=>'UserController@edit_profile'])->name('user_edit_profile');
+Route::get('/{user_name}',['uses' => 'UserController@profile'])->name('user_profile');
+
+Route::get('/manage/info',['uses' => 'UserController@edit_profile'])->name('edit_user_info');
+
+//Route::get('/user/{id}', 'UserController@profile');
+
+//Route::get('/user/{id}', ['uses'=>'UserController@profile'])->name('user_profile');
+//Route::get('/user/edit/{id}', ['uses'=>'UserController@edit_profile'])->name('user_edit_profile');
 
 Route::any('/register', ['uses'=>'Auth\AuthController@getRegister'])->name('registration_form');
 Route::post('/register', ['uses'=>'Auth\AuthController@postRegister'])->name('do_register');

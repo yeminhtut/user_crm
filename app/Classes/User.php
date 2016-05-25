@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','user_name'
     ];
 
     /**
@@ -28,5 +28,9 @@ class User extends Authenticatable
         if(!isset($this->type) || $this->type != 'admin') {
             //Redirect::to('index')->send();
         }
+    }
+
+    public function user_info() {
+        return $this->hasOne('App\Classes\User_Info', 'user_id');
     }
 }

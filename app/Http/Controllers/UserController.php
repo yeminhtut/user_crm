@@ -28,13 +28,15 @@ class UserController extends Controller
     /**
 	 * profile for user
 	 */
-	public function profile(Request $request, $uid){
+	public function profile(Request $request,$user_name){
 		
-		$user = \App\Classes\User::find($uid);
+		//$user = \App\Classes\User::where('user_name', $user_name)->firstOrFail();
+		$user = Auth::user();
 		
-		if ($request->user()->id !== $user->id) {
-			Redirect::to('/user/'.$request->user()->id)->send();
+		if ($request->user()->user_name !== $user_name) {
+			Redirect::to('/'.$user->user_name)->send();
 		}
+
 		$data['user'] = $user;
 		
 		// $data['comments_count'] = $data['user'] -> comments -> count();
@@ -48,12 +50,19 @@ class UserController extends Controller
 		return view('user.profile', $data);
 	}
 
-	public function edit_profile(Request $request,$uid){
-		$user = \App\Classes\User::find($uid);
-		if ($request->user()->id !== $user->id) {
-			Redirect::to('/user/edit/'.$request->user()->id)->send();
-		}
-		$data['user'] = $user;
+	public function edit_profile(Request $request){
+		$data['user'] = $request->user();
+		$data['user_info'] = $request->user()->user_info;
 		return view('user.edit_profile',$data);
+	}
+
+	public function test(){
+		echo 'test';
+	}
+
+	public function test_fn(){
+		$auth_user = Auth::user();
+		$auth_user_name = $auth_user->user_name;		
+		Redirect::to('/'.$auth_user_name)->send();
 	}
 }
